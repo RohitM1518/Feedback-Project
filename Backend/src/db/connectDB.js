@@ -1,4 +1,4 @@
-import { DB_NAME } from '../constants.js'
+import { DB_NAME } from '../utils/constants.js'
 import mongoose from "mongoose"
 
 const connectDB=async()=>{

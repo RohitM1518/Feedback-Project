@@ -13,7 +13,6 @@ const storage = multer.diskStorage({
         cb(null, file.originalname)  //we are storing using the name given by the user we can also store using unique name(refer documentation)
     }
 })
-
 export const upload = multer(
     {
         storage: storage
