@@ -5,6 +5,9 @@ import { asyncHandler } from '../utils/asyncHandler.js'
 
 const createFeedback = asyncHandler(async(req,res)=>{
     const {type,rating,comments}=req.body
+    console.log("Type ",type)
+    console.log("Rating ",rating)
+    console.log("Comments ",comments)
     if(!type || !rating || !comments){
         throw new ApiError(400,"All feilds are required")
     }

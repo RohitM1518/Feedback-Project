@@ -4,7 +4,7 @@ const feedbackFormSchema = new mongoose.Schema({
     type:{
         type: String,
         required: true,
-        enum:['product','student','service']
+        enum:['Product','Student','Employee']
     },
     rating:{
         type:Number,

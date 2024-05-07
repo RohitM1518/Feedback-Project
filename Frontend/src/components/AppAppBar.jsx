@@ -24,19 +24,8 @@ const logoStyle = {
 function AppAppBar() {
     const [open, setOpen] = React.useState(false);
     const isLogin = useSelector(state => state.status)
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-
-    const logoutHandler = async () => {
-        try {
-            const res = await axios.get('http://localhost:3000/user/logout')
-            dispatch(logout())
-            navigate('/')
-
-        } catch (error) {
-
-        }
-    }
+    const role = useSelector(state => state.currentUser?.user.role)
+    console.log("Role",role)
 
 
     const toggleDrawer = (newOpen) => () => {
@@ -116,49 +105,73 @@ function AppAppBar() {
                                         </Typography>
                                     </Link>
                                 </MenuItem>
-                                <MenuItem
-                                    onClick={() => scrollToSection('testimonials')}
-                                    sx={{ py: '6px', px: '12px' }}
-                                >
-                                    <Typography variant="body2" color="text.primary">
-                                        Product Feedback
-                                    </Typography>
-                                </MenuItem>
-                                <MenuItem
-                                    onClick={() => scrollToSection('highlights')}
-                                    sx={{ py: '6px', px: '12px' }}
-                                >
-                                    <Typography variant="body2" color="text.primary">
-                                        Student Feedback
-                                    </Typography>
-                                </MenuItem>
-                                <MenuItem
-                                    onClick={() => scrollToSection('pricing')}
-                                    sx={{ py: '6px', px: '12px' }}
-                                >
-                                    <Typography variant="body2" color="text.primary">
-                                        Employee Feedback
-                                    </Typography>
-                                </MenuItem>
-                                <MenuItem
-                                    onClick={() => scrollToSection('faq')}
-                                    sx={{ py: '6px', px: '12px' }}
-                                >
-                                    <Typography variant="body2" color="text.primary">
-                                        Contact Us
-                                    </Typography>
-                                </MenuItem>
+                                {role != "admin" ? (
+                                    <>
+                                        <MenuItem
+                                            onClick={() => scrollToSection('testimonials')}
+                                            sx={{ py: '6px', px: '12px' }}
+                                        >
+                                            <Link to="/productfeedback">
+                                                <Typography variant="body2" color="text.primary">
+                                                    Product Feedback
+                                                </Typography>
+                                            </Link>
+                                        </MenuItem>
+                                        <MenuItem
+                                            onClick={() => scrollToSection('highlights')}
+                                            sx={{ py: '6px', px: '12px' }}
+                                        >
+                                            <Link to="/studentfeedback">
+                                                <Typography variant="body2" color="text.primary">
+                                                    Student Feedback
+                                                </Typography>
+                                            </Link>
+                                        </MenuItem>
+                                        <MenuItem
+                                            onClick={() => scrollToSection('pricing')}
+                                            sx={{ py: '6px', px: '12px' }}
+                                        >
+                                            <Link to="/employeefeedback">
+                                                <Typography variant="body2" color="text.primary">
+                                                    Employee Feedback
+                                                </Typography>
+                                            </Link>
+                                        </MenuItem>
+                                        <MenuItem
+                                            onClick={() => scrollToSection('faq')}
+                                            sx={{ py: '6px', px: '12px' }}
+                                        >
+                                            <Link to="/contactus">
+                                                <Typography variant="body2" color="text.primary">
+                                                    Contact Us
+                                                </Typography>
+                                            </Link>
+                                        </MenuItem>
+                                    </>
+                                ) : (
+                                    <MenuItem
+                                            onClick={() => scrollToSection('faq')}
+                                            sx={{ py: '6px', px: '12px' }}
+                                        >
+                                            <Link to="/dashboard">
+                                                <Typography variant="body2" color="text.primary">
+                                                    Dashboard
+                                                </Typography>
+                                            </Link>
+                                        </MenuItem>
+                                )}
+
                             </Box>
                         </Box>
-                         
-                            <Box
-                                sx={{
-                                    display: { xs: 'none', md: 'flex' },
-                                    gap: 0.5,
-                                    alignItems: 'center',
-                                }}
-                            >
-                                { !isLogin &&
+
+                        <Box
+                            sx={{
+                                display: { xs: 'none', md: 'flex' },
+                                gap: 0.5,
+                                alignItems: 'center',
+                            }}
+                        >
+                            {!isLogin &&
                                 <Button
                                     color="primary"
                                     variant="text"
@@ -168,8 +181,8 @@ function AppAppBar() {
                                 >
                                     Sign in
                                 </Button>
-                                }
-                                { !isLogin &&
+                            }
+                            {!isLogin &&
                                 <Button
                                     color="primary"
                                     variant="contained"
@@ -179,14 +192,14 @@ function AppAppBar() {
                                 >
                                     Sign up
                                 </Button>
-                                }
-                                {
-                                    isLogin &&
-                                    <div>
-                                        <UserProfile />
-                                    </div>
-                                }
-                            </Box>
+                            }
+                            {
+                                isLogin &&
+                                <div>
+                                    <UserProfile />
+                                </div>
+                            }
+                        </Box>
 
                         <Box sx={{ display: { sm: '', md: 'none' } }}>
                             <Button
@@ -220,24 +233,45 @@ function AppAppBar() {
                                     {
                                         isLogin &&
                                         <div className=' float-right block'>
-                                        <UserProfile />
+                                            <UserProfile />
                                         </div>
-                                    }   
+                                    }
                                     <Link to={`/`} className=' block'>
                                         <MenuItem onClick={() => scrollToSection('features')}>
                                             Home
                                         </MenuItem>
                                     </Link>
-                                    <MenuItem onClick={() => scrollToSection('testimonials')}>
-                                        Product Feedback
-                                    </MenuItem>
-                                    <MenuItem onClick={() => scrollToSection('highlights')}>
-                                        Student Feedback
-                                    </MenuItem>
-                                    <MenuItem onClick={() => scrollToSection('pricing')}>
-                                        Employee Feedback
-                                    </MenuItem>
+                            { role != "admin"? (
+                                <>
+                                    <Link to={`/productfeedback`}>
+                                        <MenuItem onClick={() => scrollToSection('testimonials')}>
+                                            Product Feedback
+                                        </MenuItem>
+                                    </Link>
+                                    <Link to={`/studentfeedback`}>
+                                        <MenuItem onClick={() => scrollToSection('highlights')}>
+                                            Student Feedback
+                                        </MenuItem>
+                                    </Link>
+                                    <Link to={`/employeefeedback`}>
+                                        <MenuItem onClick={() => scrollToSection('pricing')}>
+                                            Employee Feedback
+                                        </MenuItem>
+                                    </Link>
                                     <MenuItem onClick={() => scrollToSection('faq')}>Contact Us</MenuItem>
+                                    </>
+                            ):(
+                                <MenuItem
+                                            onClick={() => scrollToSection('faq')}
+                                            sx={{ py: '6px', px: '12px' }}
+                                        >
+                                            <Link to="/dashboard">
+                                                <Typography variant="body2" color="text.primary">
+                                                    Dashboard
+                                                </Typography>
+                                            </Link>
+                                        </MenuItem>
+                            )}
                                     <Divider />
                                     {!isLogin && <>
                                         <MenuItem>
