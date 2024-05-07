@@ -5,10 +5,11 @@ import cookieParser from "cookie-parser"
 
 const app = express();
 app.use(cors({
-    origin: process.env.CORS_ORIGIN,
-    credentials:true
-}
-)) //use method used whenever we use middleware, configuration
+    origin: 'http://localhost:5173', // Allow requests from your front-end origin
+    credentials: true, // Allow requests with credentials (e.g., cookies, auth tokens)
+}));
+
+//use method used whenever we use middleware, configuration
 app.use(express.json({
     limit:"16kb"
 }

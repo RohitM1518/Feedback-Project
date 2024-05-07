@@ -34,7 +34,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     const { fullName, email, password, role, contactNo } = req.body
 
-
+    console.log("password ", password)
     if ([fullName, email, password, role, contactNo].some((feild) => feild?.trim() === "")) {
         throw new ApiError(400, "All fields are required")
     }
@@ -59,7 +59,7 @@ const registerUser = asyncHandler(async (req, res) => {
     const user = await User.create(
         {
             fullName: capitalizeFirstLetter(fullName.trim()),
-            avatar: avatar.url,
+            avatar: avatar.url || " ",
             email,
             password,
             role,
@@ -68,7 +68,7 @@ const registerUser = asyncHandler(async (req, res) => {
     )
 
     const createdUser = await User.findById(user._id).select(
-        "-password -refreshToken" //This means we are not sending the password and refreshToken to the frontend
+        "-password " //This means we are not sending the password and refreshToken to the frontend
     )
 
     if (!createdUser) {
@@ -84,12 +84,12 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
 
-
+    createdUser.accessToken = accessToken;
     return res.status(201)
         .cookie("accessToken", accessToken, options)
         .cookie("refreshToken", refreshToken, options)
         .json(
-            new ApiResponse(200, { user: createdUser }, "User Registered Successfully")
+            new ApiResponse(200, { data: {user: createdUser,accessToken} }, "User Registered Successfully")
         )
 })
 
@@ -104,15 +104,17 @@ const loginUser = asyncHandler(async (req, res) => {
     if (!user) {
         throw new ApiError(404, "User Does not Exists")
     }
-
+    console.log("Password ",password)
     const isPasswordValid = await user.isPasswordCorrect(password)
+    console.log("isPasswordValid ",isPasswordValid)
+
     if (!isPasswordValid) {
         throw new ApiError(401, "Invalid user Credentials")
     }
 
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id)
 
-    const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
+    const loggedInUser = await User.findById(user._id).select("-password ")
 
     const options = {
         httpOnly: true, //This means that the cookie can only be accessed by the server
@@ -120,14 +122,15 @@ const loginUser = asyncHandler(async (req, res) => {
         //TODO: For production set it to true
     }
     console.log("Access token", accessToken)
-
+    loggedInUser.accessToken = accessToken;
+    console.log(loggedInUser)
     return res
         .status(200)
         .cookie("accessToken", accessToken, options)
         .cookie("refreshToken", refreshToken, options)
         .json(new ApiResponse(
             200,
-            { user: loggedInUser },
+            { data: {user: loggedInUser,accessToken} },
             "User Logged In Successfully"
         ))
 
