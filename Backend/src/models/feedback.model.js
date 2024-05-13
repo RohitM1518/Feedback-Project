@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const feedbackFormSchema = new mongoose.Schema({
+const feedbackSchema = new mongoose.Schema({
     type:{
         type: String,
         required: true,
@@ -21,4 +21,4 @@ const feedbackFormSchema = new mongoose.Schema({
     }
 },{timestamps:true})
 
-export const FeedbackForm = mongoose.model('FeedbackForm',feedbackFormSchema)
+export const Feedback = mongoose.model('FeedbackForm',feedbackSchema)

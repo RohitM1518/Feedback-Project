@@ -1,4 +1,4 @@
-import {FeedbackForm} from '../models/feedbackform.model.js'
+import {Feedback} from '../models/feedback.model.js'
 import { ApiError } from '../utils/ApiError.js'
 import { ApiResponse } from '../utils/ApiResponse.js'
 import { asyncHandler } from '../utils/asyncHandler.js'
@@ -11,19 +11,19 @@ const createFeedback = asyncHandler(async(req,res)=>{
     if(!type || !rating || !comments){
         throw new ApiError(400,"All feilds are required")
     }
-    const feedbackForm = await FeedbackForm.create({
+    const feedback = await Feedback.create({
         type,
         rating,
         comments,
         submittedBy:req.user._id
     })
-    if(!feedbackForm){
+    if(!feedback){
         throw new ApiError(500,"Error while submitting the form")
     }
 
     return res
     .status(200)
-    .json(new ApiResponse(200,feedbackForm," Feedback stored successfully"))
+    .json(new ApiResponse(200,feedback," Feedback stored successfully"))
 })
 
 const deleteFeedback=asyncHandler(async(req,res)=>{
@@ -35,11 +35,11 @@ const deleteFeedback=asyncHandler(async(req,res)=>{
     if(!feedbackid){
         throw new ApiError(400,"Feedback id is required")
     }
-    const feedbackForm = FeedbackForm.findById(feedbackid)
-    if(!feedbackForm){
+    const feedback = Feedback.findById(feedbackid)
+    if(!feedback){
         throw new ApiError(200,"No such feedback stored")
     }
-    const response = await FeedbackForm.findByIdAndDelete(feedbackid)
+    const response = await Feedback.findByIdAndDelete(feedbackid)
     if(!response){
         throw new ApiError(500,"Something went wrong while deleting feedback form")
     }
