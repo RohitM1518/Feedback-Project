@@ -2,7 +2,7 @@ import React from 'react'
 import { FeedbackForm } from '../components/index.js'
 const StudentFeedback = () => {
   return (
-    <div className=' flex justify-center items-center mt-20'>
+    <div className=' flex justify-center items-center mt-32'>
         <FeedbackForm type={`Student`}/>
     </div>
   )

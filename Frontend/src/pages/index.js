@@ -1,19 +1,23 @@
 import Home from "./Home";
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
 import ProductFeedback from "./ProductFeedback";
 import EmployeeFeedback from "./EmployeeFeedback";
 import StudentFeedback from "./StudentFeedback";
 import ContactUs from "./ContactUs";
 import Dashboard from "./Dashboard";
+import AdminSignIn from './AdminSignIn'
+import AdminSignUp from './AdminSignUp'
+import UserSignIn from './UserSignIn'
+import UserSignUp from './UserSignUp'
 
 export{
     Home,
-    SignIn,
-    SignUp,
     ProductFeedback,
     EmployeeFeedback,
     StudentFeedback,
     ContactUs,
-    Dashboard
+    Dashboard,
+    UserSignIn,
+    UserSignUp,
+    AdminSignIn,
+    AdminSignUp
 }

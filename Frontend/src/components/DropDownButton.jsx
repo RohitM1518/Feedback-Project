@@ -2,8 +2,9 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { Link } from 'react-router-dom';
 
-export default function FeedbackFormButton() {
+export default function FeedbackFormButton({mainBtn="",btn1="",btn2="",btn3="",link1="",link2="",link3="",variant=""}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -21,8 +22,9 @@ export default function FeedbackFormButton() {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
+        variant={variant}
       >
-        Provide Feedback
+        {mainBtn}
       </Button>
       <Menu
         id="demo-positioned-menu"
@@ -39,9 +41,15 @@ export default function FeedbackFormButton() {
           horizontal: 'left',
         }}
       >
-        <MenuItem onClick={handleClose}>Product Feedback</MenuItem>
-        <MenuItem onClick={handleClose}>Student Feedback</MenuItem>
-        <MenuItem onClick={handleClose}>Employee Feedback</MenuItem>
+        <Link to={`/${link1}`}> 
+        <MenuItem onClick={handleClose}>{btn1}</MenuItem>
+        </Link>
+        <Link to={`/${link2}`}>
+        <MenuItem onClick={handleClose}>{btn2}</MenuItem>
+        </Link>
+        <Link to={`/${link3}`}>
+        <MenuItem onClick={handleClose}>{btn3}</MenuItem>
+        </Link>
       </Menu>
     </div>
   );

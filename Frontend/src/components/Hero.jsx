@@ -5,9 +5,12 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import {FeedbackFormButton} from './index.js';
+import {DropDownButton} from './index.js';
+import { useSelector } from 'react-redux';
 
 export default function Hero() {
+    const role = useSelector(state => state.currentUser?.user?.role)
+    console.log("Role",role)
     return (
         <Box
             id="hero"
@@ -70,11 +73,10 @@ export default function Hero() {
                         useFlexGap
                         sx={{ pt: 2, width: { xs: '100%', sm: 'auto' } }}
                     >
-                        {/* <Button variant="contained" color="primary">
-                            Give Feedback
-                        </Button> */}
-                        <FeedbackFormButton />
-                    </Stack>
+                        { role!="admin" ?
+                        (<DropDownButton variant='contained' mainBtn='Provide Feedback' btn1='Product Feedback' btn2='Student Feedback' btn3='Employee Feedback' link1='productfeedback' link2='studentfeedback' link3='employeefeedback'/>):(<></>)
+                        }
+                        </Stack>
                 </Stack>
                 <Box
                     id="image"

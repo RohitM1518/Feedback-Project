@@ -1,9 +1,11 @@
 import { CssBaseline, TextField, Typography } from '@mui/material'
-import React from 'react'
-import { Card, Button,Box,Rating } from '@mui/material'
+import React, { useState } from 'react'
+import { Card, Button,Box,Rating,Snackbar } from '@mui/material'
 import StarIcon from '@mui/icons-material/Star';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import { errorParser } from '../utils/errorParser';
+import ErrorMsg from './ErrorMsg';
 
 const labels = {
   0.5: 'Useless',
@@ -26,33 +28,62 @@ const FeedbackForm = ({ type }) => {
   const [value, setValue] = React.useState(2);
   const [hover, setHover] = React.useState(-1);
   const [comments, setComments] = React.useState("");
+  const status = useDispatch(state => state.currentUser.status)
+  const [error, setError] = React.useState("")
 
   const accessToken = useSelector(state => state.currentUser?.accessToken)
   
   const handleSubmit=async (event) => {
-    event.preventDefault()
-    const payload={
-      type:type,
-      rating:value,
-      comments:comments
-    }
-    console.log("Payload",payload)
-      const res = await axios.post('http://localhost:8000/feedback/create',
-        payload,
-        {
-          withCredentials: true,
-          headers: {
-            'Authorization': `Bearer ${accessToken}`
+    setError('')
+    try {
+      event.preventDefault()
+      const payload={
+        type:type,
+        rating:value,
+        comments:comments
+      }
+      console.log("Payload",payload)
+        const res = await axios.post('http://localhost:8000/feedback/create',
+          payload,
+          {
+            withCredentials: true,
+            headers: {
+              'Authorization': `Bearer ${accessToken}`
+            }
           }
-        }
-      );
-      console.log("Response ",res.data)
+        );
+        console.log("Response ",res.data)
+    } catch (error) {
+      const errorMsg = errorParser(error)
+      setError(errorMsg)
     }
+    }
+
+    const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   return (
     <>
       <CssBaseline />
+      <Snackbar
+        open={open}
+        autoHideDuration={5000}
+        onClose={handleClose}
+        message="Please Sign In or Sign Up to provide feedback"
+      />
       <div className=' flex flex-col gap-14'>
-        <Typography variant='h4' align='center'>{type || " Provide Feedback"}</Typography>
+        <Typography variant='h4' align='center'>{type+" Feedback" || " Provide Feedback"}</Typography>
         <Card>
           <form method="post" className=' p-4' onSubmit={handleSubmit}>
           <Box
@@ -97,9 +128,13 @@ const FeedbackForm = ({ type }) => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={status?(handleClick):(()=>{return})}
             >
               Submit
             </Button>
+            {
+              error && <ErrorMsg msg={error} />
+            }
           </form>
         </Card>
       </div>

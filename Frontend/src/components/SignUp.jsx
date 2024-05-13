@@ -19,7 +19,9 @@ import { useNavigate } from 'react-router-dom';
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
-export default function SignUp() {
+
+
+export default function SignUp({role="user"}) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [selectedFile, setSelectedFile] = React.useState(null);
@@ -31,19 +33,14 @@ export default function SignUp() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     
-    // const payload = {
-    //   email: data.get('email'),
-    //   fullName: data.get('fullName'),
-    //   password: data.get('password'),
-    //   contactNo: data.get('contactNo'),
-    //   avatar: selectedFile || ""
-    // }
     const formData = new FormData();
             formData.append("email", data.get('email'));
             formData.append("fullName", data.get('fullName'));
             formData.append("avatar", selectedFile); // Assuming avatar is a single file
             formData.append("password", data.get('password'));
             formData.append("contactNo", data.get('contactNo'));
+            formData.append("role", role);
+
 
     try {
       const res = await axios.post('http://localhost:8000/user/register', formData)
@@ -56,6 +53,7 @@ export default function SignUp() {
   };
 
   return (
+    <div className=' mt-12'>
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -71,7 +69,7 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            {role} Sign up
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -140,7 +138,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/signin" variant="body2">
+                <Link href={`/${role}signin`} variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
@@ -149,5 +147,6 @@ export default function SignUp() {
         </Box>
       </Container>
     </ThemeProvider>
+    </div>
   );
 }

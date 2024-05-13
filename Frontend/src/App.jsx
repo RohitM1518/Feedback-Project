@@ -3,6 +3,7 @@ import { Footer, AppAppBar } from './components/index.js'
 import { Outlet } from 'react-router-dom'
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux'
+import { logout } from './redux/userSlice.js';
 
 
 function App() {
@@ -10,21 +11,29 @@ function App() {
   const refreshToken = useSelector(state => state.currentUser?.user?.refreshToken)
   const accessToken = useSelector(state => state.currentUser?.accessToken)
   if (refreshToken && accessToken) {
-    ; (async () => {
-      const res = await axios.post('http://localhost:8000/user/refresh-token',
-        { refreshToken: refreshToken },
-        {
-          withCredentials: true,
-          headers: {
-            'Authorization': `Bearer ${accessToken}`
+  const refreshTheToken=async() => {
+    try {
+      
+        const res = await axios.post('http://localhost:8000/user/refresh-token',
+          { refreshToken: refreshToken },
+          {
+            withCredentials: true,
+            headers: {
+              'Authorization': `Bearer ${accessToken}`
+            }
           }
-        }
-      );
-
-    })();
+        );
+  
+    } catch (error) {
+      dispatch(logout())
+       throw error
+    }
+    };
+    refreshTheToken();
   }
+  
   return (
-    <div className=' flex flex-col gap-20'>
+    <div className=' flex flex-col'>
       <AppAppBar />
       <Outlet />
       <Footer />

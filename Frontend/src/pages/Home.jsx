@@ -6,7 +6,7 @@ import Hero from '../components/Hero';
 import Footer from '../components/AppAppBar';
 
 export default function LandingPage() {
-
+  
   return (
     <div>
       <CssBaseline />

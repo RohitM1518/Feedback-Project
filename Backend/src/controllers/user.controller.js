@@ -95,12 +95,17 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const loginUser = asyncHandler(async (req, res) => {
 
-    const { email, password } = req.body
+    const { email, password,role } = req.body
     if (!email) {
         throw new ApiError(400, "Email or Username is required")
     }
     const user = await User.findOne({ email: email });
-
+    if(role=="admin" && user.role!="admin"){
+        throw new ApiError(400,"You Registered as user cannot be logged in as admin")
+    }
+    if(role=="user" && user.role!="user"){
+        throw new ApiError(400,"You Registered as Admin cannot be logged in as user")
+    }
     if (!user) {
         throw new ApiError(404, "User Does not Exists")
     }

@@ -1,19 +1,13 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { Box } from '@mui/material';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Divider from '@mui/material/Divider';
-import Typography from '@mui/material/Typography';
-import MenuItem from '@mui/material/MenuItem';
-import Drawer from '@mui/material/Drawer';
+import {Drawer, MenuItem, Typography, Divider, Container,Button,Toolbar,AppBar,Box,List,ListItem,ListItemButton,ListItemText,ListItemIcon} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
-import { UserProfile } from '../components/index.js'
+import { UserProfile, DropDownButton } from './index.js'
 
 const logoStyle = {
     width: '140px',
@@ -22,10 +16,11 @@ const logoStyle = {
 };
 
 function AppAppBar() {
+
     const [open, setOpen] = React.useState(false);
     const isLogin = useSelector(state => state.status)
-    const role = useSelector(state => state.currentUser?.user.role)
-    console.log("Role",role)
+    const role = useSelector(state => state.currentUser?.user?.role)
+    console.log("Role", role)
 
 
     const toggleDrawer = (newOpen) => () => {
@@ -150,15 +145,15 @@ function AppAppBar() {
                                     </>
                                 ) : (
                                     <MenuItem
-                                            onClick={() => scrollToSection('faq')}
-                                            sx={{ py: '6px', px: '12px' }}
-                                        >
-                                            <Link to="/dashboard">
-                                                <Typography variant="body2" color="text.primary">
-                                                    Dashboard
-                                                </Typography>
-                                            </Link>
-                                        </MenuItem>
+                                        onClick={() => scrollToSection('faq')}
+                                        sx={{ py: '6px', px: '12px' }}
+                                    >
+                                        <Link to="/dashboard">
+                                            <Typography variant="body2" color="text.primary">
+                                                Dashboard
+                                            </Typography>
+                                        </Link>
+                                    </MenuItem>
                                 )}
 
                             </Box>
@@ -172,26 +167,12 @@ function AppAppBar() {
                             }}
                         >
                             {!isLogin &&
-                                <Button
-                                    color="primary"
-                                    variant="text"
-                                    size="small"
-                                    component="a"
-                                    href="/signin"
-                                >
-                                    Sign in
-                                </Button>
+                                <DropDownButton mainBtn='Sign In' btn1='User Sign In' btn2='Admin Sign In' link1='usersignin' link2='adminsignin' variant='outlined' />
+
                             }
                             {!isLogin &&
-                                <Button
-                                    color="primary"
-                                    variant="contained"
-                                    size="small"
-                                    component="a"
-                                    href="/signup"
-                                >
-                                    Sign up
-                                </Button>
+                                <DropDownButton mainBtn='Sign Up' btn1='User Sign Up' btn2='Admin Sign Up' link1='usersignup' link2='adminsignup' variant='contained' />
+
                             }
                             {
                                 isLogin &&
@@ -241,27 +222,27 @@ function AppAppBar() {
                                             Home
                                         </MenuItem>
                                     </Link>
-                            { role != "admin"? (
-                                <>
-                                    <Link to={`/productfeedback`}>
-                                        <MenuItem onClick={() => scrollToSection('testimonials')}>
-                                            Product Feedback
-                                        </MenuItem>
-                                    </Link>
-                                    <Link to={`/studentfeedback`}>
-                                        <MenuItem onClick={() => scrollToSection('highlights')}>
-                                            Student Feedback
-                                        </MenuItem>
-                                    </Link>
-                                    <Link to={`/employeefeedback`}>
-                                        <MenuItem onClick={() => scrollToSection('pricing')}>
-                                            Employee Feedback
-                                        </MenuItem>
-                                    </Link>
-                                    <MenuItem onClick={() => scrollToSection('faq')}>Contact Us</MenuItem>
-                                    </>
-                            ):(
-                                <MenuItem
+                                    {role != "admin" ? (
+                                        <>
+                                            <Link to={`/productfeedback`}>
+                                                <MenuItem onClick={() => scrollToSection('testimonials')}>
+                                                    Product Feedback
+                                                </MenuItem>
+                                            </Link>
+                                            <Link to={`/studentfeedback`}>
+                                                <MenuItem onClick={() => scrollToSection('highlights')}>
+                                                    Student Feedback
+                                                </MenuItem>
+                                            </Link>
+                                            <Link to={`/employeefeedback`}>
+                                                <MenuItem onClick={() => scrollToSection('pricing')}>
+                                                    Employee Feedback
+                                                </MenuItem>
+                                            </Link>
+                                            <MenuItem onClick={() => scrollToSection('faq')}>Contact Us</MenuItem>
+                                        </>
+                                    ) : (
+                                        <MenuItem
                                             onClick={() => scrollToSection('faq')}
                                             sx={{ py: '6px', px: '12px' }}
                                         >
@@ -271,7 +252,7 @@ function AppAppBar() {
                                                 </Typography>
                                             </Link>
                                         </MenuItem>
-                            )}
+                                    )}
                                     <Divider />
                                     {!isLogin && <>
                                         <MenuItem>
