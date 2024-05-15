@@ -23,6 +23,7 @@ function App() {
             }
           }
         );
+        dispatch(login(res.data.data.data))
   
     } catch (error) {
       dispatch(logout())

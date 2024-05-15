@@ -30,6 +30,7 @@ const FeedbackForm = ({ type }) => {
   const [comments, setComments] = React.useState("");
   const status = useDispatch(state => state.currentUser.status)
   const [error, setError] = React.useState("")
+  const [feedbackStatus,setFeedbackStatus]= React.useState('Submit')
 
   const accessToken = useSelector(state => state.currentUser?.accessToken)
   
@@ -52,6 +53,12 @@ const FeedbackForm = ({ type }) => {
             }
           }
         );
+        if(res){
+          setFeedbackStatus("Submitted")
+        }
+        setTimeout(()=>{
+          setFeedbackStatus("Submit")
+        },5000)
         console.log("Response ",res.data)
     } catch (error) {
       const errorMsg = errorParser(error)
@@ -76,12 +83,12 @@ const FeedbackForm = ({ type }) => {
   return (
     <>
       <CssBaseline />
-      <Snackbar
+      {!status && <Snackbar
         open={open}
         autoHideDuration={5000}
         onClose={handleClose}
         message="Please Sign In or Sign Up to provide feedback"
-      />
+      />}
       <div className=' flex flex-col gap-14'>
         <Typography variant='h4' align='center'>{type+" Feedback" || " Provide Feedback"}</Typography>
         <Card>
@@ -129,8 +136,9 @@ const FeedbackForm = ({ type }) => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
               onClick={status?(handleClick):(()=>{return})}
+              color={feedbackStatus=='Submitted'? 'success' : 'primary'}
             >
-              Submit
+              {feedbackStatus}
             </Button>
             {
               error && <ErrorMsg msg={error} />

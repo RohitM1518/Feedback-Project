@@ -10,6 +10,25 @@ import { useSelector } from 'react-redux';
 
 export default function Hero() {
     const role = useSelector(state => state.currentUser?.user?.role)
+    const user = useSelector(state=>state.currentUser?.user)
+  const accessToken = useSelector(state => state.currentUser?.accessToken)
+  
+  const refreshTheToken=async() => {
+    try {
+      
+        const res = await axios.get('http://localhost:8000/feedback/getuserfeedback',{
+            withCredentials: true,
+            headers: {
+              'Authorization': `Bearer ${accessToken}`
+            }
+          }
+        );
+        console.log(res?.data?.data)
+  
+    } catch (error) {
+       throw error
+    }
+    };
     console.log("Role",role)
     return (
         <Box

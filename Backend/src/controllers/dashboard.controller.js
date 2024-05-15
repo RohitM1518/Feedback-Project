@@ -1,9 +1,9 @@
-import { Feedback } from "../models/feedback.model";
-import { ApiError } from "../utils/ApiError";
-import { ApiResponse } from "../utils/ApiResponse";
-import { asyncHandler } from "../utils/asyncHandler";
+import { Feedback } from "../models/feedback.model.js";
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
-const getAllFeedbacks = asyncHandler(async () => {
+const getAllFeedbacks = asyncHandler(async (req,res) => {
     const pipeline = [
         // Stage 1: Lookup user information
         {
@@ -23,8 +23,9 @@ const getAllFeedbacks = asyncHandler(async () => {
                 "comments":1,
                 "submittedBy":1,
                 "submittedAt":1,
-                "user.name":1,
-                "user.email":1
+                "user.fullName":1,
+                "user.email":1,
+                "user.avatar":1,
             }
         }
     ];
@@ -40,8 +41,9 @@ const getAllFeedbacks = asyncHandler(async () => {
         .json(new ApiResponse(200, feedbacks, "Feedbacks found"))
 })
 
-const sortFeedbacks = asyncHandler(async (req, res) => {
+const getSortedFeedbacks = asyncHandler(async (req, res) => {
     // Calculate skip count based on pagination
+    const {page=1,limit=10,sortBy='createdAt',sortOrder='asc'}=req.query
     const skipCount = (page - 1) * limit;
 
     // Aggregation pipeline stages
@@ -71,17 +73,25 @@ const sortFeedbacks = asyncHandler(async (req, res) => {
                 "comments":1,
                 "submittedBy":1,
                 "submittedAt":1,
-                "user.name":1,
-                "user.email":1
+                "user.fullName":1,
+                "user.email":1,
+                "user.avatar":1,
             }
         }
     ];
 
     // Execute aggregation pipeline
     const feedback = await Feedback.aggregate(pipeline);
+
+    if (!feedback) {
+        throw new ApiError(500, "No feedbacks found")
+    }
+    return res
+        .status(200)
+        .json(new ApiResponse(200, feedback, "Feedbacks found"))
 })
 
 export {
     getAllFeedbacks,
-    sortFeedbacks
+    getSortedFeedbacks
 }

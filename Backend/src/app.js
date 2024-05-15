@@ -23,8 +23,10 @@ app.use(cookieParser())
 //import routes
 import userRoutes from './routes/user.route.js'
 import feedbackFormRoutes from './routes/feedback.route.js'
+import dashboardRoutes from './routes/dashboard.route.js'
 
 app.use('/user',userRoutes)
 app.use('/feedback',feedbackFormRoutes)
+app.use('/dashboard',dashboardRoutes)
 
 export {app}

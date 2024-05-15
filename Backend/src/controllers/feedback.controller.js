@@ -48,7 +48,15 @@ const deleteFeedback=asyncHandler(async(req,res)=>{
     .json(new ApiResponse(200,{},"Succcessfully deleted the feedback"))
 })
 
+const getUserFeedbacks=asyncHandler(async(req,res)=>{
+    const feedbacks = await Feedback.find({submittedBy:req.user._id})
+    if(!feedbacks){
+        throw new ApiError(400,"No Feedbacks found")
+    }
+    return res.status(200).json(new ApiResponse(200,feedbacks,"Successfully Fetched"))
+})
 export{
     createFeedback,
-    deleteFeedback
+    deleteFeedback,
+    getUserFeedbacks
 }
