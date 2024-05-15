@@ -9,6 +9,8 @@ import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import DashboardDrawer from "./DahboardDrawer";
 import ErrorMsg from "./ErrorMsg";
+import AdminFeedbackCard from "./AdminFeedbackCard";
+import FeedbackCard from "./FeedbackCard";
 
 export {
     Footer,
@@ -21,5 +23,7 @@ export {
     SignIn,
     SignUp,
     DashboardDrawer,
-    ErrorMsg
+    ErrorMsg,
+    AdminFeedbackCard,
+    FeedbackCard
 }

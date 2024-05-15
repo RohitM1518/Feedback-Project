@@ -1,15 +1,12 @@
 import * as React from 'react';
 import { alpha } from '@mui/material';
 import { Box } from '@mui/material';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { DropDownButton } from './index.js';
+import { DropDownButton,FeedbackCard } from './index.js';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import { Feedback } from '../../../Backend/src/models/feedback.model.js';
-import FeedbackCard from './FeedbackCard.jsx';
 import Typewriter from 'typewriter-effect';
 
 export default function Hero() {

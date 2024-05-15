@@ -23,9 +23,9 @@ const getAllFeedbacks = asyncHandler(async (req,res) => {
                 "comments":1,
                 "submittedBy":1,
                 "submittedAt":1,
-                "user.fullName":1,
-                "user.email":1,
-                "user.avatar":1,
+                "fullName":"$user.fullName",
+                "email":"$user.email",
+                "avatar":"$user.avatar",
             }
         }
     ];
