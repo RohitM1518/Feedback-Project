@@ -10,7 +10,7 @@ function App() {
   const dispatch = useDispatch()
   const refreshToken = useSelector(state => state.currentUser?.user?.refreshToken)
   const accessToken = useSelector(state => state.currentUser?.accessToken)
-  if (refreshToken && accessToken) {
+  
   const refreshTheToken=async() => {
     try {
       
@@ -29,7 +29,7 @@ function App() {
       dispatch(logout())
        throw error
     }
-    };
+    
     refreshTheToken();
   }
   
