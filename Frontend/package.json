@@ -24,6 +24,7 @@
     "react-router-dom": "^6.23.0",
     "redux": "^5.0.1",
     "redux-persist": "^6.0.0",
+    "timeago.js": "^4.0.2",
     "typewriter-effect": "^2.21.0"
   },
   "devDependencies": {

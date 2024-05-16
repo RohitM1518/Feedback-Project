@@ -138,6 +138,9 @@ export default function Hero() {
                                 : `0 0 24px 12px ${alpha('#033363', 0.2)}`,
                     })}
                 >
+                    <div className='w-full my-10'>
+                        <Typography variant='h4' align='center'>Submitted Feedbacks</Typography>
+                    </div>
                     <div className=' grid  max-2xl:grid-cols-3 max-xl:grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 gap-6 p-5'>
                         {
                             feedbacks &&

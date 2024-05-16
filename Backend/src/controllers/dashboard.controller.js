@@ -3,47 +3,12 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
-const getAllFeedbacks = asyncHandler(async (req,res) => {
-    const pipeline = [
-        // Stage 1: Lookup user information
-        {
-            $lookup: {
-                from: 'users', // Assuming the name of the User collection is 'users'
-                localField: 'submittedBy',
-                foreignField: '_id',
-                as: 'user'
-            }
-        },
-        // Stage 2: Unwind the user array (as it's an array due to $lookup)
-        { $unwind: '$user' },
-        {
-            $project:{
-                "type":1,
-                "rating":1,
-                "comments":1,
-                "submittedBy":1,
-                "submittedAt":1,
-                "fullName":"$user.fullName",
-                "email":"$user.email",
-                "avatar":"$user.avatar",
-            }
-        }
-    ];
 
-    // Execute aggregation pipeline
-    const feedbacks = await Feedback.aggregate(pipeline);
-
-    if (!feedbacks) {
-        throw new ApiError(500, "No feedbacks found")
-    }
-    return res
-        .status(200)
-        .json(new ApiResponse(200, feedbacks, "Feedbacks found"))
-})
-
-const getSortedFeedbacks = asyncHandler(async (req, res) => {
+const getAllFeedbacks = asyncHandler(async (req, res) => {
     // Calculate skip count based on pagination
     const {page=1,limit=10,sortBy='createdAt',sortOrder='asc'}=req.query
+    console.log("sortby",sortBy)
+    console.log("sortOrder",sortOrder)
     const skipCount = (page - 1) * limit;
 
     // Aggregation pipeline stages
@@ -72,10 +37,10 @@ const getSortedFeedbacks = asyncHandler(async (req, res) => {
                 "rating":1,
                 "comments":1,
                 "submittedBy":1,
-                "submittedAt":1,
-                "user.fullName":1,
-                "user.email":1,
-                "user.avatar":1,
+                "createdAt":1,
+                "fullName":"$user.fullName",
+                "email":"$user.email",
+                "avatar":"$user.avatar",
             }
         }
     ];
@@ -93,5 +58,4 @@ const getSortedFeedbacks = asyncHandler(async (req, res) => {
 
 export {
     getAllFeedbacks,
-    getSortedFeedbacks
 }
