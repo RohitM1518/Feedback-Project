@@ -21,7 +21,7 @@ This is a feedback collection system built using React for the frontend, and Exp
 
 1. Navigate to the `frontend` directory: `cd frontend`
 2. Install dependencies: `npm install`
-3. Start the development server: `npm start`
+3. Start the development server: `npm run dev`
 4. Open `http://localhost:3000` in your browser
 
 ### Backend
@@ -29,7 +29,7 @@ This is a feedback collection system built using React for the frontend, and Exp
 1. Navigate to the `backend` directory: `cd backend`
 2. Install dependencies: `npm install`
 3. Set up the MongoDB connection
-4. Start the server: `npm start`
+4. Start the server: `npm run dev`
 5. The server will be running on `http://localhost:3000` (or the specified port)
 
 ## Contributing
