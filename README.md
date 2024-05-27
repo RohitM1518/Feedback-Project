@@ -36,7 +36,7 @@ This is a feedback collection system built using React for the frontend, and Exp
 
 Contributions are welcome! Please open an issue or submit a pull request if you have any improvements or bug fixes.
 
-### Screenshots
+## Screenshots
 
 
 ### Landing Page
