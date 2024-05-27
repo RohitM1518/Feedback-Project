@@ -10,7 +10,8 @@
 ![image](https://github.com/RohitM1518/Feedback-Project/assets/145917472/1ee16237-eb42-439d-847e-04cffe7f4762)
 
 ### Admin Dashboard
-![Uploading image.png…]()
+![image](https://github.com/RohitM1518/Feedback-Project/assets/145917472/da440b1d-6990-4ace-9a60-037be3355f51)
+
 
 
 
