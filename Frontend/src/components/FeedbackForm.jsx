@@ -31,7 +31,7 @@ const FeedbackForm = ({ type }) => {
   const status = useDispatch(state => state.currentUser.status)
   const [error, setError] = React.useState("")
   const [feedbackStatus,setFeedbackStatus]= React.useState('Submit')
-
+  const backendURL = import.meta.env.VITE_BACKEND_URL
   const accessToken = useSelector(state => state.currentUser?.accessToken)
   
   const handleSubmit=async (event) => {
@@ -44,7 +44,7 @@ const FeedbackForm = ({ type }) => {
         comments:comments
       }
       console.log("Payload",payload)
-        const res = await axios.post('http://localhost:8000/feedback/create',
+        const res = await axios.post(`${backendURL}/feedback/create`,
           payload,
           {
             withCredentials: true,

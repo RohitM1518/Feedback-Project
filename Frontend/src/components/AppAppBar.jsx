@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import {Drawer, MenuItem, Typography, Divider, Container,Button,Toolbar,AppBar,Box,List,ListItem,ListItemButton,ListItemText,ListItemIcon} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { UserProfile, DropDownButton } from './index.js'

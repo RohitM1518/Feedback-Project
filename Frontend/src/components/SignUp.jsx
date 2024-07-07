@@ -25,6 +25,8 @@ export default function SignUp({role="user"}) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [selectedFile, setSelectedFile] = React.useState(null);
+  const backendURL = import.meta.env.BACKEND_URL
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
@@ -43,7 +45,7 @@ export default function SignUp({role="user"}) {
 
 
     try {
-      const res = await axios.post('http://localhost:8000/user/register', formData)
+      const res = await axios.post(`${backendURL}/user/register`, formData)
       dispatch(login(res.data.data.data))
       navigate('/')
 

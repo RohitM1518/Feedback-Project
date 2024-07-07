@@ -34,6 +34,7 @@ const Dashboard = () => {
   const [open, setOpen] = useState(false);
   const [sortBy, setSortBy] = React.useState('asc');
   const [sortOrder, setSortOrder] = React.useState('createdAt');
+  const backendURL = import.meta.env.BACKEND_URL
 
   const handleSortTypeChange = (event) => {
     setSortBy(event.target.value);
@@ -44,7 +45,7 @@ const Dashboard = () => {
 
   const deleteFeedback = async (id) => {
     try {
-      await axios.delete(`http://localhost:8000/feedback/${id}`, {
+      await axios.delete(`${backendURL}/feedback/${id}`, {
         withCredentials: true,
         headers: {
           'Authorization': `Bearer ${accessToken}`, // Corrected template literal syntax
@@ -65,7 +66,7 @@ const Dashboard = () => {
   useEffect(() => {
     const getSortedFeedbacks = async () => {
       try {
-        const res = await axios.get(`http://localhost:8000/dashboard/getallfeedbacks?sortBy=${sortBy}&sortOrder=${sortOrder}`, {
+        const res = await axios.get(`${backendURL}/dashboard/getallfeedbacks?sortBy=${sortBy}&sortOrder=${sortOrder}`, {
           withCredentials: true,
           headers: {
             'Authorization': `Bearer ${accessToken}`, // Corrected template literal syntax

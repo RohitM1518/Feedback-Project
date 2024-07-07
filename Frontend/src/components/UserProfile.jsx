@@ -14,6 +14,8 @@ export default function UserProfile({ imgSrc  }) {
   const accessToken = useSelector(state => state.currentUser?.accessToken)
   const dispatch = useDispatch()
   const open = Boolean(anchorEl);
+  const backendURL = import.meta.env.BACKEND_URL
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -23,7 +25,7 @@ export default function UserProfile({ imgSrc  }) {
 
   const logoutHandler = async () => {
     try {
-      await axios.get('http://localhost:8000/user/logout', {
+      await axios.get(`${backendURL}/user/logout`, {
         withCredentials: true,
         headers: {
           "Authorization": `Bearer ${accessToken}`

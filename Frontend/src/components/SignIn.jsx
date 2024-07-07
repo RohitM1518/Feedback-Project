@@ -25,6 +25,7 @@ export default function SignIn({ role = "user" }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [error,setError] = React.useState("")
+    const backendURL = import.meta.env.BACKEND_URL
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -40,7 +41,7 @@ export default function SignIn({ role = "user" }) {
             role: role
         }
         try {
-            const res = await axios.post('http://localhost:8000/user/login', payload)
+            const res = await axios.post(`${backendURL}/user/login`, payload)
             console.log(res.data.data.data)
             dispatch(login(res.data.data.data))
             navigate('/')

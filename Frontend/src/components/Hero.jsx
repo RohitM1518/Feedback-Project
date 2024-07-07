@@ -14,12 +14,13 @@ export default function Hero() {
     const user = useSelector(state => state.currentUser?.user)
     const accessToken = useSelector(state => state.currentUser?.accessToken)
     const [feedbacks, setFeedbacks] = React.useState([])
+    const backendURL = import.meta.env.BACKEND_URL
 
     React.useEffect(() => {
         const getUserFeedbacks = async () => {
             try {
 
-                const res = await axios.get('http://localhost:8000/feedback/getuserfeedbacks', {
+                const res = await axios.get(`${backendURL}/feedback/getuserfeedbacks`, {
                     withCredentials: true,
                     headers: {
                         'Authorization': `Bearer ${accessToken}`
