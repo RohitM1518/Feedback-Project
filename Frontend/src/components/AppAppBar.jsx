@@ -18,8 +18,8 @@ function AppAppBar() {
     const [open, setOpen] = React.useState(false);
     const isLogin = useSelector(state => state.status)
     const role = useSelector(state => state.currentUser?.user?.role)
-    console.log("Role", role)
-
+    // console.log("Role", role)
+    const navigate = useNavigate()
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
@@ -82,7 +82,7 @@ function AppAppBar() {
                                 px: 0,
                             }}
                         >
-                            <div className=' px-5'>
+                            <div className=' px-5' onClick={()=>navigate('/')}>
                                 <Typography variant='h5' color='#093170'>
                                     EchoCollect
                                 </Typography>

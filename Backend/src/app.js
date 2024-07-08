@@ -2,10 +2,10 @@ import  express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser"
 
-
+console.log("Cors origin: ",process.env.CORS_ORIGIN)
 const app = express();
 app.use(cors({
-    origin: 'http://localhost:5173', // Allow requests from your front-end origin
+    origin: process.env.CORS_ORIGIN, // Allow requests from your front-end origin
     credentials: true, // Allow requests with credentials (e.g., cookies, auth tokens)
 }));
 
